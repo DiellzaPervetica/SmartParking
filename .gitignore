@@ -1,0 +1,22 @@
+.env
+.env.*
+!.env.example
+
+.venv/
+venv/
+env/
+
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+data/checkpoints/
+data/exports/*
+!data/exports/.gitkeep
+
+*.log
+.DS_Store
+Thumbs.db
+
+# Obsolete generated model kept out of the final course-aligned project.
+app/ai/models/anomaly_detector.joblib

@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="sq">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Smart Parking Prishtina</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+  </head>
+  <body>
+    <div id="app" class="app-shell" v-cloak>
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">IoT Smart Parking</p>
+          <h1>{{ snapshot?.parking_name || 'Smart Parking Prishtina' }}</h1>
+        </div>
+        <div class="toolbar">
+          <select v-model="scenario" aria-label="Scenario">
+            <option v-for="item in scenarios" :key="item.value" :value="item.value">
+              {{ item.label }}
+            </option>
+          </select>
+          <button type="button" @click="load">Refresh</button>
+          <label class="toggle">
+            <input type="checkbox" v-model="autoRefresh" />
+            <span>Auto</span>
+          </label>
+        </div>
+      </header>
+
+      <main v-if="snapshot" class="dashboard">
+        <section class="metric-band">
+          <article class="metric">
+            <span>Vende te lira</span>
+            <strong>{{ summary.free_spots }}</strong>
+            <small>{{ summary.total_spots }} gjithsej</small>
+          </article>
+          <article class="metric">
+            <span>Okupimi</span>
+            <strong>{{ percent(summary.occupancy_rate) }}</strong>
+            <small>aktual</small>
+          </article>
+          <article class="metric">
+            <span>Parashikimi</span>
+            <strong>{{ percent(summary.predicted_occupancy_rate) }}</strong>
+            <small>30 min</small>
+          </article>
+          <article class="metric price" :class="summary.price_tier">
+            <span>Cmimi dinamik</span>
+            <strong>{{ money(summary.price_eur) }}</strong>
+            <small>per ore</small>
+          </article>
+        </section>
+
+        <section class="sign-row">
+          <article
+            v-for="sign in snapshot.digital_signs"
+            :key="sign.id"
+            class="digital-sign"
+            :class="sign.tone"
+          >
+            <span>{{ sign.title }}</span>
+            <strong>{{ sign.primary }}</strong>
+            <small>{{ sign.secondary }}</small>
+          </article>
+        </section>
+
+        <section class="workspace">
+          <div class="lot-panel">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">Simulimi live</p>
+                <h2>Plan parkingu</h2>
+              </div>
+              <div class="segmented" role="tablist" aria-label="Pamja">
+                <button :class="{ active: view === 'plan' }" @click="view = 'plan'">Plan</button>
+                <button :class="{ active: view === 'sensors' }" @click="view = 'sensors'">Sensore</button>
+                <button :class="{ active: view === 'ai' }" @click="view = 'ai'">AI</button>
+              </div>
+            </div>
+
+            <div class="lot-scene">
+              <div class="entry-sign">HYRJE</div>
+              <div class="zone-strip">
+                <zone-block
+                  title="Zona A"
+                  :spots="zoneSpots('A')"
+                  :view="view"
+                ></zone-block>
+                <div class="drive-lane">
+                  <span>GATEWAY</span>
+                  <i></i>
+                  <span>DALJE</span>
+                </div>
+                <zone-block
+                  title="Zona B"
+                  :spots="zoneSpots('B')"
+                  :view="view"
+                ></zone-block>
+              </div>
+            </div>
+          </div>
+
+          <aside class="side-panel">
+            <section class="info-block">
+              <div class="panel-head compact">
+                <h2>Zonat</h2>
+              </div>
+              <div class="zone-list">
+                <article v-for="zone in snapshot.zones" :key="zone.zone_id" class="zone-card">
+                  <div>
+                    <strong>Zona {{ zone.zone_id }}</strong>
+                    <span>{{ zone.free_spots }} te lira</span>
+                  </div>
+                  <meter min="0" max="1" :value="zone.occupancy_rate"></meter>
+                </article>
+              </div>
+            </section>
+
+            <section class="info-block">
+              <div class="panel-head compact">
+                <h2>Pipeline</h2>
+              </div>
+              <div class="pipeline">
+                <span v-for="item in snapshot.gateway" :key="item.name" :class="item.status">
+                  {{ item.name }}
+                </span>
+              </div>
+            </section>
+
+            <section class="info-block">
+              <div class="panel-head compact">
+                <h2>Shendeti</h2>
+                <strong>{{ snapshot.health.health_score }}%</strong>
+              </div>
+              <dl class="health-grid">
+                <div>
+                  <dt>Online</dt>
+                  <dd>{{ snapshot.health.online_spots }}</dd>
+                </div>
+                <div>
+                  <dt>Bateri e ulet</dt>
+                  <dd>{{ snapshot.health.low_battery_spots }}</dd>
+                </div>
+                <div>
+                  <dt>Sinjal i dobet</dt>
+                  <dd>{{ snapshot.health.weak_signal_spots }}</dd>
+                </div>
+                <div>
+                  <dt>Anomali</dt>
+                  <dd>{{ snapshot.ai.anomalies.length }}</dd>
+                </div>
+              </dl>
+            </section>
+          </aside>
+        </section>
+      </main>
+
+      <main v-else class="empty-state">
+        <strong v-if="loading">Duke ngarkuar simulimin...</strong>
+        <strong v-else>{{ error || 'Simulimi nuk u ngarkua.' }}</strong>
+      </main>
+    </div>
+    <script src="/static/app.js"></script>
+  </body>
+</html>
