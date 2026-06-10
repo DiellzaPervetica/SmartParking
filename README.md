@@ -19,7 +19,7 @@ Smart Parking Prishtina eshte nje projekt IoT per lenden *Internet of Things*. P
 | Kerkesa | Gjendja ne projekt | Ku gjendet | Shpjegim shtesë |
 | --- | --- | --- | --- |
 | Zgjedhja e domenit IoT | Po | Smart Parking Prishtine | Domen urban, i qarte dhe i afert me problemin real te gjetjes se vendeve te lira. |
-| Sensor fizik ose simulator | Po | `app/simulator/run_simulator.py`, `app/services/simulation_snapshot_service.py` | PDF e lejon simulatorin nese nuk ka sensor fizik. |
+| Sensor fizik ose simulator | Po | `app/simulator/run_simulator.py`, `app/services/simulation_snapshot_service.py` | Përdorim simulatorin meqë nuk ka sensor fizik. |
 | Mbledhje e te dhenave ne intervale te rregullta | Po | `SIMULATION_STEP_SECONDS`, `HEARTBEAT_SECONDS` ne `.env` / `app/settings.py` | Leximet dhe heartbeat-i gjenerohen periodikisht. |
 | Transmetim me Apache Kafka | Po | `app/gateway/mqtt_consumer.py`, `app/gateway/kafka_producer.py`, `scripts/init_kafka_topics.py` | Gateway i dergon eventet ne `parking.raw-events`. |
 | Kafka producer dhe consumer | Po | `app/gateway/kafka_producer.py`, `app/streaming/spark_streaming_processor.py` | Producer dhe consumer jane te ndare qarte. |
@@ -129,8 +129,6 @@ Ai tregon:
 - Dropdown `Auto / morning_peak / afternoon_peak / evening_relief / maintenance` ndryshon skenarin e snapshot-it.
 
 ## Screenshotet e dashboard-it
-
-Vendosi fotot reale ne `docs/images/` dhe perdor emrat me poshte. Kjo e ben README-n te vlefshem edhe per profesorin gjate leximit.
 
 ### 1. Overview i dashboard-it
 
