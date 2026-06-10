@@ -41,7 +41,7 @@ services:
     restart: unless-stopped
 
   spark-master:
-    image: bitnami/spark:3.5
+    image: bitnamilegacy/spark:3.5.6-debian-12-r0
     container_name: smart_parking_spark_master
     ports:
       - "7077:7077"
@@ -55,7 +55,7 @@ services:
     restart: unless-stopped
 
   spark-worker:
-    image: bitnami/spark:3.5
+    image: bitnamilegacy/spark:3.5.6-debian-12-r0
     container_name: smart_parking_spark_worker
     depends_on:
       - spark-master
