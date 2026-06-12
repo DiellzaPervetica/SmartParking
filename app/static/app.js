@@ -33,8 +33,14 @@ const ZoneBlock = {
         >
           <span class="spot-id">{{ spot.spot_id }}</span>
           <div v-if="view === 'plan'" class="spot-visual">
-            <i v-if="spot.occupied" class="car"></i>
-            <b v-else class="free-mark"></b>
+            <img
+              v-if="spot.occupied"
+              class="car-image"
+              src="/images/car.png"
+              alt=""
+              aria-hidden="true"
+              draggable="false"
+            />
           </div>
           <div v-else-if="view === 'sensors'" class="spot-data">
             <span>{{ Math.round(spot.distance_cm) }} cm</span>

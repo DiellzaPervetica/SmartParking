@@ -10,19 +10,23 @@
   <body>
     <div id="app" class="app-shell" v-cloak>
       <header class="topbar">
-        <div>
-          <p class="eyebrow">IoT Smart Parking</p>
+        <div class="title-copy">
           <h1>{{ snapshot?.parking_name || 'Smart Parking Prishtina' }}</h1>
         </div>
         <div class="toolbar">
           <select v-model="scenario" aria-label="Scenario">
-            <option v-for="item in scenarios" :key="item.value" :value="item.value">
+            <option
+              v-for="item in scenarios"
+              :key="item.value"
+              :value="item.value"
+            >
               {{ item.label }}
             </option>
           </select>
           <button type="button" @click="load">Refresh</button>
           <label class="toggle">
             <input type="checkbox" v-model="autoRefresh" />
+            <span class="toggle-indicator" aria-hidden="true"></span>
             <span>Auto</span>
           </label>
         </div>
@@ -31,22 +35,138 @@
       <main v-if="snapshot" class="dashboard">
         <section class="metric-band">
           <article class="metric">
-            <span>Vende te lira</span>
+            <div class="metric-head">
+              <span class="metric-label">Vende te lira</span>
+              <svg
+                class="metric-icon"
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  d="M4 16.5V10.8c0-.72.58-1.3 1.3-1.3h13.4c.72 0 1.3.58 1.3 1.3v5.7"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M6.2 16.5h11.6"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M7 9.5 8.5 6h7L17 9.5"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <circle cx="8" cy="17.3" r="1.2" fill="currentColor" />
+                <circle cx="16" cy="17.3" r="1.2" fill="currentColor" />
+              </svg>
+            </div>
             <strong>{{ summary.free_spots }}</strong>
             <small>{{ summary.total_spots }} gjithsej</small>
           </article>
           <article class="metric">
-            <span>Okupimi</span>
+            <div class="metric-head">
+              <span class="metric-label">Okupimi</span>
+              <svg
+                class="metric-icon"
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  d="M5 15.5c1.8-4 3.4-6 7-6s5.2 2 7 6"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M7 15.5h10"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M12 5v3"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                />
+                <circle cx="12" cy="16.5" r="1.4" fill="currentColor" />
+              </svg>
+            </div>
             <strong>{{ percent(summary.occupancy_rate) }}</strong>
             <small>aktual</small>
           </article>
           <article class="metric">
-            <span>Parashikimi</span>
+            <div class="metric-head">
+              <span class="metric-label">Parashikimi</span>
+              <svg
+                class="metric-icon"
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  d="M5 17 9.5 12.5 12.5 15.5 19 9"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M16.5 9H19v2.5"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M5 19h14"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </div>
             <strong>{{ percent(summary.predicted_occupancy_rate) }}</strong>
             <small>30 min</small>
           </article>
           <article class="metric price" :class="summary.price_tier">
-            <span>Cmimi dinamik</span>
+            <div class="metric-head">
+              <span class="metric-label">Cmimi dinamik</span>
+              <svg
+                class="metric-icon"
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  d="M8 4h5.2c1.7 0 3.1 1.4 3.1 3.1S14.9 10.2 13.2 10.2H8V4Z"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M8 10.2h5.5c1.9 0 3.5 1.5 3.5 3.4S15.4 17 13.5 17H8"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M9 4v16"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </div>
             <strong>{{ money(summary.price_eur) }}</strong>
             <small>per ore</small>
           </article>
@@ -68,14 +188,26 @@
         <section class="workspace">
           <div class="lot-panel">
             <div class="panel-head">
-              <div>
-                <p class="eyebrow">Simulimi live</p>
+              <div style="display: flex; flex-direction: row; gap: 8px">
                 <h2>Plan parkingu</h2>
+                <p class="eyebrow">Simulimi live</p>
               </div>
               <div class="segmented" role="tablist" aria-label="Pamja">
-                <button :class="{ active: view === 'plan' }" @click="view = 'plan'">Plan</button>
-                <button :class="{ active: view === 'sensors' }" @click="view = 'sensors'">Sensore</button>
-                <button :class="{ active: view === 'ai' }" @click="view = 'ai'">AI</button>
+                <button
+                  :class="{ active: view === 'plan' }"
+                  @click="view = 'plan'"
+                >
+                  Plan
+                </button>
+                <button
+                  :class="{ active: view === 'sensors' }"
+                  @click="view = 'sensors'"
+                >
+                  Sensore
+                </button>
+                <button :class="{ active: view === 'ai' }" @click="view = 'ai'">
+                  AI
+                </button>
               </div>
             </div>
 
@@ -107,7 +239,11 @@
                 <h2>Zonat</h2>
               </div>
               <div class="zone-list">
-                <article v-for="zone in snapshot.zones" :key="zone.zone_id" class="zone-card">
+                <article
+                  v-for="zone in snapshot.zones"
+                  :key="zone.zone_id"
+                  class="zone-card"
+                >
                   <div>
                     <strong>Zona {{ zone.zone_id }}</strong>
                     <span>{{ zone.free_spots }} te lira</span>
@@ -122,7 +258,11 @@
                 <h2>Pipeline</h2>
               </div>
               <div class="pipeline">
-                <span v-for="item in snapshot.gateway" :key="item.name" :class="item.status">
+                <span
+                  v-for="item in snapshot.gateway"
+                  :key="item.name"
+                  :class="item.status"
+                >
                   {{ item.name }}
                 </span>
               </div>
