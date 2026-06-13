@@ -1,11 +1,13 @@
 from app.gateway.validator import validate_sensor_payload
+from app.settings import get_settings
 
 
 def test_validate_sensor_payload_success():
+    settings = get_settings()
     payload = {
         "event_id": "1",
         "parking_id": "prishtina_center_01",
-        "parking_name": "Qendra Parking Prishtine",
+        "parking_name": settings.parking_name,
         "zone_id": "A",
         "spot_id": "P01",
         "sensor_id": "ultra-p01",

@@ -22,7 +22,7 @@ class Settings:
     environment: str = os.getenv("ENVIRONMENT", "development")
 
     parking_id: str = os.getenv("PARKING_ID", "prishtina_center_01")
-    parking_name: str = os.getenv("PARKING_NAME", "Qendra Parking Prishtine")
+    parking_name: str = os.getenv("PARKING_NAME", "Parkingu Qendror i Prishtinës")
     total_spots: int = int(os.getenv("TOTAL_SPOTS", "20"))
 
     mqtt_host: str = os.getenv("MQTT_HOST", "localhost")

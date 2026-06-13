@@ -1,4 +1,21 @@
 const { createApp } = Vue;
+const SCENARIO_STORAGE_KEY = "smart-parking-scenario";
+
+function readStoredScenario() {
+  try {
+    return window.localStorage.getItem(SCENARIO_STORAGE_KEY) || "auto";
+  } catch (error) {
+    return "auto";
+  }
+}
+
+function saveStoredScenario(value) {
+  try {
+    window.localStorage.setItem(SCENARIO_STORAGE_KEY, value);
+  } catch (error) {
+    // LocalStorage may be unavailable in some browser modes.
+  }
+}
 
 const ZoneBlock = {
   props: {
@@ -68,7 +85,7 @@ createApp({
       loading: true,
       error: null,
       view: "plan",
-      scenario: "auto",
+      scenario: readStoredScenario(),
       autoRefresh: true,
       timer: null,
       scenarios: [
@@ -86,7 +103,8 @@ createApp({
     },
   },
   watch: {
-    scenario() {
+    scenario(value) {
+      saveStoredScenario(value);
       this.load();
     },
     autoRefresh() {

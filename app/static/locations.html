@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="sq">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lokacionet e parkimit ne Prishtine</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body class="locations-page">
+    <div class="app-shell locations-shell">
+      <header class="topbar locations-topbar">
+        <div class="title-copy">
+          <p class="eyebrow">Smart Parking</p>
+          <h1>Lokacionet e parkimit në Prishtinë</h1>
+          <p class="subtitle">
+            Zgjedh lokacionin për të hyrë ne dashboard-in e simulimit live.
+          </p>
+        </div>
+
+        <div class="toolbar">
+          <a class="location-action" href="/dashboard">Hape dashboard-in</a>
+        </div>
+      </header>
+
+      <section class="locations-layout">
+        <article class="locations-map-card">
+          <div class="locations-map-head">
+            <div class="map-head-copy">
+              <h2>Harta e qytetit</h2>
+            </div>
+            <span class="map-chip">1 lokacion aktiv</span>
+          </div>
+
+          <div
+            id="prishtinaMap"
+            class="locations-map osm-map"
+            aria-label="Harta e lokacioneve te parkimit ne Prishtine"
+          >
+            <noscript>
+              <div class="map-fallback">
+                <strong>Harta nuk mund te ngarkohet pa JavaScript.</strong>
+                <span>Aktivizo JavaScript për tëpare lokacionet.</span>
+              </div>
+            </noscript>
+          </div>
+
+          <div class="map-legend floating" aria-label="Legjenda e hartes">
+            <span><i class="legend-dot active"></i>Aktiv</span>
+            <span><i class="legend-dot demo"></i>Demo</span>
+          </div>
+        </article>
+
+        <aside class="locations-list-card">
+          <div class="locations-list-head">
+            <div>
+              <h2>Lokacionet</h2>
+            </div>
+          </div>
+
+          <a class="location-item active" href="/dashboard">
+            <div>
+              <strong data-active-parking-name>Parkingu Qendror i Prishtinës</strong>
+              <p><span data-active-parking-free>15</span> vende te lira</p>
+            </div>
+            <span class="location-pill">Hape</span>
+          </a>
+
+          <button
+            class="location-item demo"
+            type="button"
+            data-focus-location="dardania"
+          >
+            <div>
+              <strong>Dardania</strong>
+              <p>8 vende te lira</p>
+            </div>
+            <span class="location-pill ghost">Demo</span>
+          </button>
+
+          <button
+            class="location-item demo"
+            type="button"
+            data-focus-location="bregu-i-diellit"
+          >
+            <div>
+              <strong>Bregu i Diellit</strong>
+              <p>11 vende te lira</p>
+            </div>
+            <span class="location-pill ghost">Demo</span>
+          </button>
+
+          <button
+            class="location-item demo"
+            type="button"
+            data-focus-location="ulpiana"
+          >
+            <div>
+              <strong>Ulpiana</strong>
+              <p>6 vende te lira</p>
+            </div>
+            <span class="location-pill ghost">Demo</span>
+          </button>
+
+          <p class="location-note">
+            Kur shtohen lokacione tjera, kjo faqe mund te sherbeje si harte
+            kryesore per zgjedhje.
+          </p>
+        </aside>
+      </section>
+    </div>
+
+    <script src="/static/locations.js" defer></script>
+  </body>
+</html>

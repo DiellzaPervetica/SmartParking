@@ -33,14 +33,9 @@ app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 app.mount("/images", StaticFiles(directory=IMAGES_DIR), name="images")
 
 
-@app.get("/")
-def root() -> dict:
-    return {
-        "app": settings.app_name,
-        "parking_id": settings.parking_id,
-        "dashboard": "/dashboard",
-        "docs": "/docs",
-    }
+@app.get("/", include_in_schema=False)
+def root() -> FileResponse:
+    return FileResponse(STATIC_DIR / "locations.html")
 
 
 @app.get("/dashboard", include_in_schema=False)

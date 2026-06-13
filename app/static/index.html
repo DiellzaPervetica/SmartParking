@@ -11,9 +11,10 @@
     <div id="app" class="app-shell" v-cloak>
       <header class="topbar">
         <div class="title-copy">
-          <h1>{{ snapshot?.parking_name || 'Smart Parking Prishtina' }}</h1>
+          <h1>{{ snapshot?.parking_name || 'Parkingu Qendror i Prishtinës' }}</h1>
         </div>
         <div class="toolbar">
+          <a class="toolbar-back" href="/" aria-label="Kthehu te harta">Kthehu te harta</a>
           <select v-model="scenario" aria-label="Scenario">
             <option
               v-for="item in scenarios"
@@ -32,7 +33,25 @@
         </div>
       </header>
 
-      <main v-if="snapshot" class="dashboard">
+      <main v-if="loading && !snapshot" class="empty-state loading-state" aria-busy="true" aria-live="polite">
+        <div class="loading-card">
+          <div class="loading-ring" aria-hidden="true">
+            <span class="loading-ring-core"></span>
+          </div>
+          <div class="loading-copy">
+            <p class="eyebrow">Ngarkim live</p>
+            <strong>Duke ngarkuar simulimin...</strong>
+            <span>Po merren te dhenat e parkingut dhe AI.</span>
+          </div>
+          <div class="loading-bars" aria-hidden="true">
+            <i></i>
+            <i></i>
+            <i></i>
+          </div>
+        </div>
+      </main>
+
+      <main v-else-if="snapshot" class="dashboard">
         <section class="metric-band">
           <article class="metric">
             <div class="metric-head">

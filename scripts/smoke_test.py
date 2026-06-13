@@ -4,9 +4,11 @@ import requests
 
 from app.mqtt_layer.mqtt_publisher import MqttPublisher
 from app.mqtt_layer.mqtt_topics import sensor_topic
+from app.settings import get_settings
 
 
 def main() -> None:
+    settings = get_settings()
     publisher = MqttPublisher()
     publisher.connect()
     publisher.publish_json(
@@ -14,7 +16,7 @@ def main() -> None:
         {
             "event_id": "manual-smoke-test",
             "parking_id": "prishtina_center_01",
-            "parking_name": "Qendra Parking Prishtine",
+            "parking_name": settings.parking_name,
             "zone_id": "A",
             "spot_id": "P01",
             "sensor_id": "ultra-p01",

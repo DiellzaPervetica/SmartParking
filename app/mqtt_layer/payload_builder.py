@@ -4,6 +4,7 @@ from datetime import datetime
 
 from app.domain.enums import EventType
 from app.domain.models import ParkingSpot
+from app.settings import get_settings
 from app.utils.ids import new_event_id
 
 
@@ -16,11 +17,12 @@ def build_sensor_payload(
     event_type: EventType,
     timestamp: datetime,
 ) -> dict:
+    settings = get_settings()
     spot.sequence_no += 1
     return {
         "event_id": new_event_id(),
         "parking_id": spot.parking_id,
-        "parking_name": "Qendra Parking Prishtine",
+        "parking_name": settings.parking_name,
         "zone_id": spot.zone_id,
         "spot_id": spot.spot_id,
         "sensor_id": spot.sensor_id,
