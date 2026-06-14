@@ -1,8 +1,13 @@
 const { createApp } = Vue;
 const SCENARIO_STORAGE_KEY = "smart-parking-scenario";
+const VALID_SCENARIOS = new Set(["auto", "morning_peak", "afternoon_peak", "evening_relief", "maintenance"]);
 
 function readStoredScenario() {
   try {
+    const scenarioFromUrl = new URLSearchParams(window.location.search).get("scenario");
+    if (VALID_SCENARIOS.has(scenarioFromUrl)) {
+      return scenarioFromUrl;
+    }
     return window.localStorage.getItem(SCENARIO_STORAGE_KEY) || "auto";
   } catch (error) {
     return "auto";
@@ -63,6 +68,9 @@ const ZoneBlock = {
             <span>{{ Math.round(spot.distance_cm) }} cm</span>
             <span>{{ Math.round(spot.battery_level) }}%</span>
             <span>{{ spot.signal_strength }} dBm</span>
+            <span v-if="spot.anomaly_label !== 'normal'" class="sensor-alert">
+              {{ spot.anomaly_label }}
+            </span>
           </div>
           <div v-else class="spot-data">
             <span>{{ spot.classification_label }}</span>

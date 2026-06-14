@@ -104,6 +104,9 @@ class SimulationSnapshotService:
         for idx, spot in enumerate(layout, start=1):
             occupied = spot.spot_id in occupied_ids
             distance_cm = self._distance_cm(rng, occupied)
+            if scenario == "maintenance" and idx == 19:
+                occupied = True
+                distance_cm = 118.0
             battery_level = self._battery_level(rng, idx, seed, scenario)
             signal_strength = self._signal_strength(rng, idx, seed, scenario)
             anomaly_label, anomaly_score = self._classify_sensor_health(

@@ -999,6 +999,17 @@ dt {
   text-overflow: ellipsis;
 }
 
+.spot-data .sensor-alert {
+  max-width: 100%;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: rgba(255, 107, 153, 0.14);
+  color: #b42355;
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
 .drive-lane {
   border-radius: 20px;
   background:

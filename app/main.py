@@ -30,7 +30,7 @@ app.include_router(admin_router)
 STATIC_DIR = Path(__file__).resolve().parent / "static"
 IMAGES_DIR = Path(__file__).resolve().parent.parent / "docs" / "images"
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
-app.mount("/images", StaticFiles(directory=IMAGES_DIR), name="images")
+app.mount("/images", StaticFiles(directory=IMAGES_DIR if IMAGES_DIR.exists() else STATIC_DIR), name="images")
 
 
 @app.get("/", include_in_schema=False)
