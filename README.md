@@ -130,9 +130,9 @@ Ai tregon:
 
 ## Pamjet e interface-it të aplikacionit
 
-### 1. Homepage - Harta e lokacioneve
+### 1. Faqja hyrëse - Zgjedhja e lokacionit
 
-Homepage-i paraqet hartën interaktive të të gjithë lokacioneve të parkingut Prishtine me pozicionin në kohë reale të secilit vendparkim. Korishmit i lejohet të shohë disponueshmërinë dhe statusin e vendeve të parkimit direkt në hartë.
+Faqja hyrëse paraqet një hartë interaktive të Prishtinës me të gjithë lokacionet e parkimit të disponueshme në sistem. Përdoruesi mund të zgjedhë një lokacion dhe të hyj në dashboard-in e parkingut përkatës për të monitoruar statusin në kohë reale. Për qëllime demonstrimi, sistemi përmban një lokacion aktiv - "Parkingu Qendror i Prishtinës" me 20 vende parkimi, ndërsa lokacione të tjera janë në modalitet demonstrimi.
 
 ![Homepage - Harta e lokacioneve](docs/images/homepage.PNG)
 
