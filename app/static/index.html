@@ -12,6 +12,13 @@
       <header class="topbar">
         <div class="title-copy">
           <h1>{{ snapshot?.parking_name || 'Parkingu Qendror i Prishtinës' }}</h1>
+          <p
+            v-if="snapshot"
+            class="source-pill"
+            :class="sourceClass"
+          >
+            Burimi i të dhënave: {{ sourceLabel }}
+          </p>
         </div>
         <div class="toolbar">
           <a class="toolbar-back" href="/" aria-label="Kthehu te harta">Kthehu te harta</a>

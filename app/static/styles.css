@@ -2129,3 +2129,25 @@ button.location-item {
     opacity: 1;
   }
 }
+
+.source-pill {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.source-pill.live {
+  background: #e6f7ec;
+  color: #166534;
+  border: 1px solid #86efac;
+}
+
+.source-pill.fallback {
+  background: #fff7ed;
+  color: #9a3412;
+  border: 1px solid #fdba74;
+}

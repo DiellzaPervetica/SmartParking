@@ -1,5 +1,47 @@
 # Smart Parking Prishtina
 
+<table>
+  <tr>
+    <td width="150" align="center" valign="center">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/University_of_Prishtina_logo.svg/1200px-University_of_Prishtina_logo.svg.png" width="120" alt="University Logo" />
+    </td>
+    <td valign="top">
+      <p><strong>Universiteti i Prishtinës</strong></p>
+      <p>Fakulteti i Inxhinierisë Elektrike dhe Kompjuterike</p>
+      <p>Inxhinieri Kompjuterike dhe Softuerike - Programi Master</p>
+      <p><strong>Projekti nga lënda:</strong> Internet of Things</p>
+      <p><strong>Studentët:</strong></p>
+      <ul>
+        <li>Diellza Përvetica</li>
+        <li>Festina Klinaku</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+---
+
+## Përmbajtja
+
+1. [Përmbledhje e projektit](#përmbledhje-e-projektit)
+2. [Cfare realizon projekti](#cfare-realizon-projekti)
+3. [Pajtueshmeria me kerkesat e projektit](#pajtueshmeria-me-kerkesat-e-projektit)
+4. [Hapat sipas PDF-se](#hapat-sipas-pdf-se)
+5. [Arkitektura](#arkitektura)
+6. [Si funksionon dashboard-i](#si-funksionon-dashboard-i)
+7. [Pamjet e interface-it të aplikacionit](#pamjet-e-interface-it-të-aplikacionit)
+8. [Si simulohet nje anomali](#si-simulohet-nje-anomali)
+9. [Tabelat kryesore ne Cassandra](#tabelat-kryesore-ne-cassandra)
+10. [Konfigurimi kryesor](#konfigurimi-kryesor)
+11. [Si ta nis projektin](#si-ta-nis-projektin)
+12. [Si ta ndalosh](#si-ta-ndalosh)
+13. [Si ta testosh projektin](#si-ta-testosh-projektin)
+14. [Anëtarët e grupit](#anëtarët-e-grupit)
+
+---
+
+## Përmbledhje e projektit
+
 Smart Parking Prishtina eshte nje projekt IoT per lenden *Internet of Things*. Projekti simulon nje parking urban ne Prishtine dhe e paraqet rrjedhen e plote te sistemit:
 
 `sensor / simulator -> MQTT -> Kafka -> Spark Streaming -> Cassandra -> FastAPI / Vue Dashboard`
@@ -12,7 +54,7 @@ Smart Parking Prishtina eshte nje projekt IoT per lenden *Internet of Things*. P
 - i ruan ne Apache Cassandra;
 - i vizualizon ne dashboard web;
 - llogarit parashikim, anomali, cmim dinamik dhe alarme;
-- mban dashboard funksional edhe kur nuk ka te dhena live ne Cassandra, permes fallback simulation.
+- tregon qarte burimin aktual te te dhenave ne dashboard.
 
 ## Pajtueshmeria me kerkesat e projektit
 
@@ -27,7 +69,7 @@ Smart Parking Prishtina eshte nje projekt IoT per lenden *Internet of Things*. P
 | Apache Cassandra | Po | `config/cassandra/init.cql`, `app/storage/repositories.py` | Ruhet statusi aktual, historiku, AI dhe alarmet. |
 | Nderfaqe per vizualizim | Po | `app/static/index.html`, `app/static/app.js`, `/dashboard` | Dashboard web me plan, zona, sensore, AI dhe health. |
 | Dokumentacioni final | Po | `docs/FINAL_REPORT_STRICT.md` | Raporti final i strukturuar sipas kerkesave. |
-| Sistemi funksional gjate mbrojtjes | Po | `scripts/start_strict_demo.ps1` | Demo-strict e ngre gjithe stack-un dhe ka fallback kur Cassandra s'ka rreshta. |
+| Sistemi funksional gjate mbrojtjes | Po | `scripts/start_strict_demo.ps1` | Skripti ngre infrastrukturen dhe tregon komandat per sherbimet kryesore. |
 | Komponentet e avancuara AI | Po | `app/ai/prediction.py`, `app/ai/anomaly_detection.py`, `app/ai/classification.py`, `app/ai/dynamic_pricing.py` | Prediction, classification, anomaly detection dhe pricing. |
 | Sistemi i alarmimeve | Po | `alerts_by_time`, `parking.sensor-alerts`, `/ai/alerts/latest` | Alarmet gjenerohen nga anomalite dhe validimet. |
 | Analiza e performances dhe optimizimi | Po | `scripts/benchmark_pipeline.py`, checkpointing, `spark.sql.shuffle.partitions=2` | Ka benchmark lokal dhe tuning per demo/prototip. |
@@ -120,6 +162,7 @@ Ai tregon:
 - statusin e zonave;
 - shendetin e sensoreve;
 - statusin e pipeline-it;
+- burimin e te dhenave LIVE ose fallback;
 - alarmet dhe anomalite.
 
 ### Si rifreskohet
@@ -158,17 +201,15 @@ Faqja hyrëse paraqet një hartë interaktive të Prishtinës me të gjithë lok
 
 ## Si simulohet nje anomali
 
-Menyra me e sigurt per demo eshte skenari `maintenance`, sepse ai gjeneron me qellim disa sensore me problem.
+Skenari `maintenance` perdoret per testimin e anomalive te sensoreve.
 
-### Opsioni me i thjeshte
+### Endpoint-i i testimit
 
 Hap kete endpoint:
 
 ```text
 http://127.0.0.1:8000/parking/simulation?scenario=maintenance
 ```
-
-Ose, nese po sheh dashboard-in, zgjidh `maintenance` kur dashboard-i po perdor fallback snapshot.
 
 ### Cfare del si anomali
 
@@ -186,10 +227,6 @@ Keto shfaqen ne pamjen `AI` dhe ne alarmet e sistemit.
 - sinjal nen `-90` -> `signal_weak`
 - vend i zene por distance shume e larte -> `distance_outlier`
 - vend i lire por distance shume e ulet -> `distance_outlier`
-
-### Shenim i rendesishem
-
-Simulatori bazik `run_simulator.py` zakonisht mban vlera normale, prandaj `maintenance` eshte rruga me e mire per nje demo te garantuar.
 
 ## Tabelat kryesore ne Cassandra
 
@@ -305,9 +342,16 @@ Per proceset Python ne terminale, perdor `Ctrl+C`.
 ```powershell
 python -m pytest
 python -m scripts.smoke_test
+python -m scripts.verify_live_pipeline
 python -m scripts.benchmark_pipeline
 ```
 
 - `pytest` teston kodin.
 - `smoke_test` kontrollon nese API-ja eshte gjalle.
+- `verify_live_pipeline` dergon nje event testues ne MQTT, verifikon qe ai event arrin ne Cassandra pas perpunimit nga Spark Streaming dhe kontrollon qe dashboard-i po lexon nga burimi live.
 - `benchmark_pipeline` mat throughput-in lokal per validim dhe ML pa I/O te rrjetit.
+
+## Anëtarët e grupit
+
+- **Diellza Përvetica**
+- **Festina Klinaku**

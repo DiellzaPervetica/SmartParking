@@ -101,6 +101,34 @@ createApp({
     summary() {
       return this.snapshot?.summary || {};
     },
+    sourceLabel() {
+      const source = this.snapshot?.source || "loading";
+
+      if (source === "cassandra_spark_streaming") {
+        return "LIVE: Kafka → Spark Streaming → Cassandra";
+      }
+
+      if (source === "simulation_until_cassandra_has_rows") {
+        return "Fallback: simulator derisa Cassandra të ketë rreshta";
+      }
+
+      if (source === "simulation_fallback") {
+        return "Fallback: simulator për shkak të gabimit në lexim";
+      }
+
+      if (source === "lightweight_simulation") {
+        return "Simulator demonstrues";
+      }
+
+      return source;
+    },
+    sourceClass() {
+      const source = this.snapshot?.source || "";
+      return {
+        live: source === "cassandra_spark_streaming",
+        fallback: source !== "cassandra_spark_streaming",
+      };
+    },
   },
   watch: {
     scenario(value) {
