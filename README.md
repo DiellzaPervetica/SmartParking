@@ -128,25 +128,31 @@ Ai tregon:
 - `Auto` ne krye e rifreskon faqen cdo 6 sekonda.
 - Dropdown `Auto / morning_peak / afternoon_peak / evening_relief / maintenance` ndryshon skenarin e snapshot-it.
 
-## Screenshotet e dashboard-it
+## Pamjet e interface-it të aplikacionit
 
-### 1. Overview i dashboard-it
+### 1. Homepage - Harta e lokacioneve
+
+Homepage-i paraqet hartën interaktive të të gjithë lokacioneve të parkingut Prishtine me pozicionin në kohë reale të secilit vendparkim. Korishmit i lejohet të shohë disponueshmërinë dhe statusin e vendeve të parkimit direkt në hartë.
+
+![Homepage - Harta e lokacioneve](docs/images/homepage.PNG)
+
+### 2. Overview i dashboard-it
 
 ![Dashboard overview](docs/images/dashboard-overview.PNG)
 
-### 2. Plan parkingu
+### 3. Plan parkingu
 
 ![Dashboard plan](docs/images/dashboard-plan.PNG)
 
-### 3. Pamja e sensorave
+### 4. Pamja e sensorave
 
 ![Dashboard sensors](docs/images/dashboard-sensors.PNG)
 
-### 4. Pamja AI dhe alarmet
+### 5. Pamja AI dhe alarmet
 
 ![Dashboard AI](docs/images/dashboard-ai.PNG)
 
-### 5. Skenari maintenance me anomali
+### 6. Skenari maintenance me anomali
 
 ![Dashboard maintenance scenario](docs/images/dashboard-maintance-scenario.PNG)
 

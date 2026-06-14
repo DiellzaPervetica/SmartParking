@@ -1,5 +1,6 @@
 # Dashboard screenshots
 
+- `homepage.PNG`
 - `dashboard-overview.PNG`
 - `dashboard-plan.PNG`
 - `dashboard-sensors.PNG`
