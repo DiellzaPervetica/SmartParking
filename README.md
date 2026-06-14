@@ -74,8 +74,6 @@ Smart Parking Prishtina eshte nje projekt IoT per lenden *Internet of Things*. P
 | Sistemi i alarmimeve | Po | `alerts_by_time`, `parking.sensor-alerts`, `/ai/alerts/latest` | Alarmet gjenerohen nga anomalite dhe validimet. |
 | Analiza e performances dhe optimizimi | Po | `scripts/benchmark_pipeline.py`, checkpointing, `spark.sql.shuffle.partitions=2` | Ka benchmark lokal dhe tuning per demo/prototip. |
 
-## Hapat sipas PDF-se
-
 ### 1. Zgjedhja e domenit IoT
 
 Domeni eshte `Smart Parking`. Projekti fokusohet ne nje parking urban ne Prishtine, me 20 vende gjithsej dhe dy zona kryesore: Zona A dhe Zona B.
